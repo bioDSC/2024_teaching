@@ -2,3 +2,5 @@
 *.html
 .RProj.user
 .Rhistory
+.Rproj.user
+*.csv
