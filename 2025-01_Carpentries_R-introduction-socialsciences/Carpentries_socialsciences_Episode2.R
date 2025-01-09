@@ -1,6 +1,6 @@
 
 ################################################################################
-# Lesson 2: "Introduction to R"
+# Episode 2: "Introduction to R"
 # https://datacarpentry.github.io/r-socialsci/01-intro-to-r.html
 ################################################################################
 # Print this for myself, type things as I go over it

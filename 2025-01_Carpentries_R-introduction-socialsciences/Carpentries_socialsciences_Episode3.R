@@ -1,6 +1,6 @@
 
 ################################################################################
-# Lesson 3: "Starting with data"
+# Episode 3: "Starting with data"
 # https://datacarpentry.github.io/r-socialsci/02-starting-with-data.html
 ################################################################################
 # Print this for myself, type things as I go over it

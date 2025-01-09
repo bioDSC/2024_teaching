@@ -1,7 +1,10 @@
 
 ################################################################################
-# Lesson 1: "Before we Start"
+# Episode 1: "Before we Start"
 # https://datacarpentry.github.io/r-socialsci/00-intro.html
+
+# Repository:
+# https://github.com/bioDSC/2024_teaching/tree/main/2025-01_Carpentries_R-introduction-socialsciences
 ################################################################################
 
 
