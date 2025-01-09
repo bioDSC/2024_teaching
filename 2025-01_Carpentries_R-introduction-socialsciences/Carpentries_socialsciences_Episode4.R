@@ -4,10 +4,28 @@
 # https://datacarpentry.github.io/r-socialsci/03-dplyr.html
 ################################################################################
 
+# this episode is about working with tables and manipulating/selecting
+# data from this table
+
+# we'll use dplyr
+# - 'data wrangling' easier (manipulation)
+# - automatically loaded with the tidyverse
+
+# about packages (= library)
+# - contain function w/ pre written code
+# - (not necessarily written in R, e.g. C++ also)
+# - many packages are hosted at "Comprehensive R Archive Network" (CRAN)
+# - install.packages()
+# - library()
+# - help(package='package_name')
+
+
 
 ## load the tidyverse
 library(tidyverse)
 # library(here) # SKIPPED
+
+
 
 df_interviews <- readr::read_csv('data/SAFI_clean.csv', na="NULL")
 
@@ -74,20 +92,23 @@ FALSE | FALSE
 
 ##### Combining operations
 
+
+# Approach 1: using intermediate steps
 # filter
 df_interviews2 <- filter(df_interviews, village == "Chirodzo")
 # select specific cols
 df_interviews_ch <- select(df_interviews2, village:respondent_wall_type)
 
-
-
+# Approach 2: nested functions
 # This can also be done in one line, by directly putting some code
 # as input argument to a function
 df_interviews_ch <- select(filter(df_interviews, village == "Chirodzo"),
                          village:respondent_wall_type)
     # with multiple steps, this will become chaotic
 
+# Approach 3: pipe operator
 # The pipe operator (%>%) can be used to achieve the same
+# Quickly type it: CTRL+SHIFT+M(windows)/CMD+SHIFT+M(mac)
 # It will "forward" the output of a function to the first argument
 # of another function
     # There's a built-in pipe (|>)
@@ -139,11 +160,17 @@ df_interviews %>%
 df_interviews %>%
     mutate(people_per_room = no_membrs / rooms)
 
+# perhaps we're interested in seeing whether members of being
+# a member  of a farming association is related to the amount of
+# meals each day
+
 # Can also be combined with other operations
 df_interviews %>%
     filter(!is.na(memb_assoc)) %>% # filter non-NA answers
     mutate(people_per_room = no_membrs / rooms) # ppl/room
 
+    # note that the "!" reverses a logical value 
+    # 'negation operator'
 
 ################################################################################
 
@@ -192,6 +219,7 @@ df_interviews %>%
 # 
 # The group_by function can be used to let R know which groups you are interested in
 # The summary function can then calculate summary parameters for those groups
+# ("collapses data")
 
 
 df_interviews %>%
