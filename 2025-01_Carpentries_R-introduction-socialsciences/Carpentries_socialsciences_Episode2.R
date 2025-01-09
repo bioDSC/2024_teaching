@@ -1,6 +1,7 @@
 
 ################################################################################
 # Lesson 2: "Introduction to R"
+# https://datacarpentry.github.io/r-socialsci/01-intro-to-r.html
 ################################################################################
 # Print this for myself, type things as I go over it
 
@@ -54,7 +55,12 @@ area_hectares <- 50
 # other programmers abbreviate common words. Create a third variable r_area and give it a value 
 # based on the current values of r_length and r_width. Show that changing the values of either 
 # r_length and r_width does not affect the value of r_area.
-#
+
+
+
+# <GO OVER SOLUTION TOGETHER>
+
+
 ########################################
 
 # Functions and arguments
@@ -84,6 +90,12 @@ round(digits=2, x=3.14159)
 # Type in ?round at the console and then look at the output in the Help pane. 
 # What other functions exist that are similar to round? How do you use the digits 
 # parameter in the round function?
+
+
+# <GO OVER SOLUTION TOGETHER>
+
+
+
 ########################################
 
 
@@ -162,6 +174,12 @@ posesesions <- c('car', possessions) # add at beginning
 # another class coercion. These conversions happen according to a hierarchy, whereby 
 # some types get preferentially coerced into other types. Can you draw a diagram that
 # represents the hierarchy of how these data types are coerced?
+
+
+
+# <GO OVER SOLUTION TOGETHER>
+
+
 
 # Solution:
 typeof(c(1.0, integer(1), 'a', T))
@@ -251,6 +269,13 @@ rooms[complete.cases(rooms)]
 # 2. Use the function median() to calculate the median of the rooms vector.
 # 
 # 3. Use R to figure out how many households in the set use more than 2 rooms for sleeping.
+
+
+
+# <GO OVER SOLUTION TOGETHER>
+
+
+
 ################################################################################
 
 
