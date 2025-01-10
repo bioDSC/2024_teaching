@@ -5,11 +5,9 @@
 ################################################################################
 
 
-# (A) X GO OVER STUFF (B) X ADD SOLUTIONS, (C) CHECK THE TEXT, 
-    CONTINUE AT "PIVOTING WIDER" AND ELOBORATE THE SCRIPT BELOW
-# (D) ADD WHAT IS LEARNED (E) CHECK SOLUTIONS
+# Now we'll be looking at re-organizing data tables
 
-# TO DO (ADD WHAT WE'LL LEARN HERE)
+# Goal is to facilitate analyses
 
 
 # As before
@@ -252,10 +250,15 @@ View(interviews_plotting)
 dir.create('data_output/')
 readr::write_csv(interviews_plotting, file = "data_output/interviews_plotting.csv")
 
-
 # can be loaded again also
 interviews_plotting_loaded <- readr::read_csv('data_output/interviews_plotting.csv', na="NULL")
 View(interviews_plotting_loaded)
+
+
+# addition MW
+# perhaps also mention the functions 
+saveRDS(interviews_plotting, "data_output/interviews_plotting.rds")
+interviews_plotting <- readRDS("data_output/interviews_plotting.rds")
 
 
 
