@@ -11,6 +11,9 @@
 # - 'data wrangling' easier (manipulation)
 # - automatically loaded with the tidyverse
 
+# Cheat sheet:
+# https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf
+
 # about packages (= library)
 # - contain function w/ pre written code
 # - (not necessarily written in R, e.g. C++ also)
