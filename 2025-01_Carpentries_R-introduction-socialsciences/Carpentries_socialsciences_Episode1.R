@@ -7,8 +7,6 @@
 # https://github.com/bioDSC/2024_teaching/tree/main/2025-01_Carpentries_R-introduction-socialsciences
 ################################################################################
 
-
-
 # R vs. Rstudio
     # R: language + interpretation software
     # RStudio: software that makes interaction w/ R easier
@@ -44,6 +42,19 @@
     # download a file to that directory, "download.file"
     # the file: "https://raw.githubusercontent.com/datacarpentry/r-socialsci/main/episodes/data/SAFI_clean.csv"
 
+getwd()
+setwd()
+
+dir.create("data")
+dir.create("data_output")
+dir.create("fig_output")
+
+
+download.file(
+  "https://raw.githubusercontent.com/datacarpentry/r-socialsci/main/episodes/data/SAFI_clean.csv",
+  "data/SAFI_clean.csv", mode = "wb"
+  )
+
 # what is code?
     # code is written instructions
     # execution
@@ -61,7 +72,7 @@
     # EXERCISE: make sure you have the following package installed: tidyverse
         # (includes ggplot2, dplyr)
 
-
+install.packages("tidyverse")
 
 
 
