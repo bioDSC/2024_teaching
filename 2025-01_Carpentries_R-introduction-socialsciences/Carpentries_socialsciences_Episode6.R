@@ -4,13 +4,9 @@
 # https://datacarpentry.github.io/r-socialsci/05-ggplot2.html
 ################################################################################
 
-# TO DO STILL: 
-# (A) CONTINUE GOING OVER CODE WITHOUT READING FIRST 
-#     --> CONTINUE AT "XXXX"
-# (B) CONTINUE READING AT BOXPLOT, AND UPDATE CODE BELOW WITH THOSE READINGS
-# (C) INCLUDE ALSO ANSWERS TO EXERCISES
-# (D) CHECK MY OWN ANSWERS WITH OFFICIAL ONES
-# (E) ADD WHAT WE'LL BE DOING AT TOP
+# THIS EPISODE
+# - using yesterday's data
+# - we'll be looking into multiple ways of plotting data
 
 library(tidyverse)
 library(ggplot2)
@@ -169,11 +165,11 @@ interviews_plotting %>%
         width = 0.2,
         height = 0.2)
 
-# addition MW (just for show!)
-interviews_plotting %>%
-   ggplot(aes(x = no_membrs, y = number_items, color = village)) +
-   geom_density_2d(bins=6)+
-    facet_grid(cols = vars(village))
+# "This is not a great way to show this type of data 
+# because it is difficult to distinguish between villages. 
+# What other plot types could help you visualize this 
+# relationship better?"
+
 
 ################################################################################
 
@@ -184,6 +180,7 @@ interviews_plotting %>%
 
 # - allows quick comparison summary param
     # - e.g. mean, width distr
+    # muddaub houses tend to be smaller
 # - doesn't show all features --> add points
 
 interviews_plotting %>%
@@ -350,12 +347,19 @@ percent_wall_type %>%
 
 
 # proportion of respondents memb_assoc / village, remove NA
-interviews_plotting %>% 
+percent_memb_assoc <- interviews_plotting %>% 
     filter(!is.na(memb_assoc)) %>% 
     count(memb_assoc, village) %>% 
     # calculate percentages
     group_by(village) %>% 
-    mutate(percentage_n = n/sum(n)*100)
+    mutate(percentage_n = n/sum(n)*100) %>% 
+    ungroup()
+
+percent_memb_assoc %>%
+   ggplot(aes(x = village, y = percentage_n, fill = memb_assoc)) +
+    geom_bar(stat = "identity", position = "dodge")+
+    theme_bw()
+    # --> Ruaca lowest proportion assoc members
     
 
 
@@ -620,6 +624,11 @@ ggsave('fig_output/myplot.pdf', my_plot, width=5, height =5, units = 'cm', devic
 # compare with png version!
 
 
+# addition MW (just for show!)
+interviews_plotting %>%
+   ggplot(aes(x = no_membrs, y = number_items, color = village)) +
+   geom_density_2d(bins=6)+
+    facet_grid(cols = vars(village))
 
 # Take home points
 
