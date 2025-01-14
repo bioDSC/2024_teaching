@@ -5,12 +5,12 @@
 ################################################################################
 
 # TO DO STILL: 
-(A) CONTINUE GOING OVER CODE WITHOUT READING FIRST 
-    --> CONTINUE AT "XXXX"
-(B) CONTINUE READING AT BOXPLOT, AND UPDATE CODE BELOW WITH THOSE READINGS
-(C) INCLUDE ALSO ANSWERS TO EXERCISES
-(D) CHECK MY OWN ANSWERS WITH OFFICIAL ONES
-(E) ADD WHAT WE'LL BE DOING AT TOP
+# (A) CONTINUE GOING OVER CODE WITHOUT READING FIRST 
+#     --> CONTINUE AT "XXXX"
+# (B) CONTINUE READING AT BOXPLOT, AND UPDATE CODE BELOW WITH THOSE READINGS
+# (C) INCLUDE ALSO ANSWERS TO EXERCISES
+# (D) CHECK MY OWN ANSWERS WITH OFFICIAL ONES
+# (E) ADD WHAT WE'LL BE DOING AT TOP
 
 library(tidyverse)
 library(ggplot2)
@@ -177,14 +177,14 @@ interviews_plotting %>%
 
 ################################################################################
 
-XXXX CONTINUE HERE XXXX
-
-
 # Another convenient display is the boxplot
 interviews_plotting %>%
     ggplot(aes(x = respondent_wall_type, y = rooms)) +
     geom_boxplot()
 
+# - allows quick comparison summary param
+    # - e.g. mean, width distr
+# - doesn't show all features --> add points
 
 interviews_plotting %>%
     ggplot(aes(x = respondent_wall_type, y = rooms)) +
@@ -194,6 +194,18 @@ interviews_plotting %>%
         width = 0.2,
         height = 0.2)+
     theme_bw() # addition MW, don't forget to mention google!!
+
+
+# how can we switch the order of the layers? And make the boxplots on top?
+interviews_plotting %>%
+    ggplot(aes(x = respondent_wall_type, y = rooms)) +
+    geom_jitter(alpha = 0.5,
+        color = "tomato",
+        width = 0.2,
+        height = 0.2)+
+    geom_boxplot(alpha = 0) +
+    theme_bw() # addition MW, don't forget to mention google!!
+
 
 ################################################################################
 
@@ -220,34 +232,104 @@ interviews_plotting %>%
 # Add colour to the data points on your boxplot according to whether the respondent 
 # is a member of an irrigation association (memb_assoc).
 
+# <GO OVER SOLUTIONS TOGETHER>
+
+
+
+
+
+# My solutions
+# (A)
+interviews_plotting %>%
+    ggplot(aes(x = respondent_wall_type, y = rooms)) +
+    geom_jitter(alpha = 0.5,
+        color = "tomato",
+        width = 0.2,
+        height = 0.2)+
+    geom_violin(alpha = 0) +
+    theme_bw() # addition MW, don't forget to mention google!!
+
+# (B) 
+# Create a boxplot for liv_count for each wall type. Overlay the boxplot layer 
+# on a jitter layer to show actual measurements.
+interviews_plotting %>%
+    ggplot(aes(x = respondent_wall_type, y = liv_count)) +
+    geom_jitter(alpha = 0.5,
+        width = 0.2,
+        height = 0.2, mapping = aes(color = memb_assoc)
+        )+
+    geom_boxplot(alpha = 0) +
+    theme_bw()
+# (C)
+interviews_plotting %>%
+    ggplot(aes(x = respondent_wall_type, y = liv_count)) +
+    geom_jitter(alpha = 0.5,
+        width = 0.2,
+        height = 0.2, mapping = aes(color = memb_assoc)
+        )+
+    geom_violin(alpha = 0) +
+    theme_bw()
+
+
+
 ################################################################################
 
+# bar plot
 
+# - per default, acts like a histogram
+#       - counts the number of instances each value apears in the dataset
 
 interviews_plotting %>%
     ggplot(aes(x = respondent_wall_type)) +
     geom_bar()
 
 
+# fill can be used to inspect further features in the data
+# e.g. proportion of each
 interviews_plotting %>%
     ggplot(aes(x = respondent_wall_type)) +
     geom_bar(aes(fill = village))
 
+# difficult te read
 
+# to create side-by side bars, use:
+
+# position="dodge" 
 interviews_plotting %>%
     ggplot(aes(x = respondent_wall_type)) +
     geom_bar(aes(fill = village), position = "dodge")
 
+# interesting, 
+
+# However, more interested in proportion of houses
+# So normalize to villages
+
+# Calculation to create new parameter
+
+
 percent_wall_type <- interviews_plotting %>%
+    # remove cement as there was only one
     filter(respondent_wall_type != "cement") %>%
+    # count (remember, effectively count = group.by + n())
+    ## View(percent_wall_type)
     count(village, respondent_wall_type) %>%
+    # now, per village, calculate percentages
+        # note that n was calculated before (show intermediate result)
     group_by(village) %>%
     mutate(percent = (n / sum(n)) * 100) %>%
-    ungroup()
+    ungroup() # important!
 
+# View(percent_wall_type)
+
+# now we can plot this
 percent_wall_type %>%
     ggplot(aes(x = village, y = percent, fill = respondent_wall_type)) +
-    geom_bar(stat = "identity", position = "dodge")
+    geom_bar(stat = "identity", position = "dodge")+
+        # MW: note that here we use 'stat = "identity"', 
+            # - default = count; which counts similar instances
+            # - stat='identity' telling ggplot to use data 'as is'
+    theme_bw()
+
 
 ################################################################################
 
@@ -258,28 +340,41 @@ percent_wall_type %>%
 # who answered that question in the calculations and plot. Which village had the 
 # lowest proportion of respondents in an irrigation association?
 
+
+# <GO OVER SOLUTION TOGETHER>
+
+
+
+
+
+
+
+# proportion of respondents memb_assoc / village, remove NA
+interviews_plotting %>% 
+    filter(!is.na(memb_assoc)) %>% 
+    count(memb_assoc, village) %>% 
+    # calculate percentages
+    group_by(village) %>% 
+    mutate(percentage_n = n/sum(n)*100)
+    
+
+
 ################################################################################
+# labels and titles
 
-
-
+# add labels (labs)
 percent_wall_type %>%
     ggplot(aes(x = village, y = percent, fill = respondent_wall_type)) +
     geom_bar(stat = "identity", position = "dodge") +
-    labs(title = "Proportion of wall type by village",
-         fill = "Type of Wall in Home",
+    labs(title = "Wall types",
+         subtitle = "proprtion per village",
+         fill = "Type of Wall in Home", # can refer to any aesthetic in the plot
          x = "Village",
-         y = "Percent")
+         y = "Percent",
+         caption = "Caption text")
 
-
-percent_wall_type %>%
-    ggplot(aes(x = respondent_wall_type, y = percent)) +
-    geom_bar(stat = "identity", position = "dodge") +
-    labs(title="Proportion of wall type by village",
-         x="Wall Type",
-         y="Percent") +
-    facet_wrap(~ village)
-
-
+# Often, convenient to subdivide data in multiple plots
+# facet_wrap
 
 percent_wall_type %>%
     ggplot(aes(x = respondent_wall_type, y = percent)) +
@@ -287,24 +382,78 @@ percent_wall_type %>%
     labs(title="Proportion of wall type by village",
          x="Wall Type",
          y="Percent") +
-    facet_wrap(~ village) +
-    theme_bw() +
+    facet_wrap(~ village)+ # note: ~ is a "formula"
+    #facet_grid(cols = vars(village))+ # MW
+    #facet_grid(rows = vars(village))+ # MW
+    theme_bw()+
     theme(panel.grid = element_blank())
 
+# same for number of items 
 
+# calculate percentages of items
+
+# let's build this up slowly
+
+# completely manual
+# number of entries for town
+nrow(interviews_plotting[interviews_plotting$village=='Chirodzo',])
+# number of entries having bicycle (True)
+sum(interviews_plotting[interviews_plotting$village=='Chirodzo',]$bicycle)
+# percentage
+17 / 39 * 100
+
+# now for one column
+interviews_plotting %>%
+    # need two columns
+    select(bicycle, village) %>% 
+    # per village
+    group_by(village) %>%
+    # calculation as above
+    # (summarize calculates summary parameter you define)
+    summarize(sum(bicycle) / n() * 100) 
+
+# convenient to do this for multiple columns at once
+
+# the same as above can be done, 
+# using across,
+# allows _applying same transformation to multiple columns_
 percent_items <- interviews_plotting %>%
     group_by(village) %>%
     summarize(across(bicycle:no_listed_items, ~ sum(.x) / n() * 100)) %>%
+        # across:
+        # [across multiple columns]
+        # see also ?across
+        # arg 1: columns
+        # arg 2: function
+        #           ~, tilda or twiddle, indicates definition of formula
+        #               technical note to self: ~ takes a vector and translates it to formula, where .x is input vector
+        #               as_mapper(~ sum(.x) / n() * 100)
+        #               https://adv-r.hadley.nz/functionals.html
+        #           .x, input vector
+        #           -   can use function definition as well, more clear,
+        #               however, "~" notation is often used
+        #
+        # technical note to self:
+        # equals:
+        #summarize(across(bicycle:no_listed_items, function(x) { sum(x) / length(x) * 100} )) %>%
+    ## View(percent_items)
+    # Wide format is not understood plotting, so we need to pivot
     pivot_longer(bicycle:no_listed_items, names_to = "items", values_to = "percent")
 
-
-
+# now we can plot again
+# using things we learned before
 percent_items %>%
     ggplot(aes(x = village, y = percent)) +
     geom_bar(stat = "identity", position = "dodge") +
     facet_wrap(~ items) +
     theme_bw() +
     theme(panel.grid = element_blank())
+    # Addition MW, also shown later
+    #, axis.text.x = element_text(angle = 90))
+
+################################################################################
+
+# 
 
 ################################################################################
 
@@ -312,29 +461,33 @@ percent_items %>%
 # 
 # Experiment with at least two different themes. Build the previous plot using 
 # each of those themes. Which do you like best?
+#
+# For an overview, see:
+# https://ggplot2.tidyverse.org/reference/ggtheme.html
+# 
+# From Carpentries text:
+# "theme_minimal() and theme_light() are popular, and theme_void() can be useful"
+# For extensions to ggplot, see also:
+# https://exts.ggplot2.tidyverse.org/
+#
+# <GO OVER ANSWERS TOGETHER>
+
+
+
+
+# solution
+# see
+# https://ggplot2.tidyverse.org/reference/ggtheme.html
+#
+# - which one did you try?
 
 ################################################################################
 
-
-percent_items %>%
-    ggplot(aes(x = village, y = percent)) +
-    geom_bar(stat = "identity", position = "dodge") +
-    facet_wrap(~ items) +
-    labs(title = "Percent of respondents in each village who owned each item",
-         x = "Village",
-         y = "Percent of Respondents") +
-    theme_bw()
+# input from ppl:
+# how would you improve the plot?
 
 
-percent_items %>%
-    ggplot(aes(x = village, y = percent)) +
-    geom_bar(stat = "identity", position = "dodge") +
-    facet_wrap(~ items) +
-    labs(title = "Percent of respondents in each village who owned each item",
-         x = "Village",
-         y = "Percent of Respondents") +
-    theme_bw() +
-    theme(text = element_text(size = 16))
+# improvements suggested carpentries:
 
 
 
@@ -342,17 +495,28 @@ percent_items %>%
     ggplot(aes(x = village, y = percent)) +
     geom_bar(stat = "identity", position = "dodge") +
     facet_wrap(~ items) +
+    # better labels,
+    # \n indicates a new line
     labs(title = "Percent of respondents in each village \n who owned each item",
          x = "Village",
          y = "Percent of Respondents") +
     theme_bw() +
-    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 45,
-                                     hjust = 0.5, vjust = 0.5),
-          axis.text.y = element_text(colour = "grey20", size = 12),
-          text = element_text(size = 16))
+    theme(
+        # increased font size
+        text = element_text(size = 16),
+        # axis text changes
+        axis.text.x = element_text(colour = "grey20", size = 12, angle = 45,
+                                      hjust = 0.5, vjust = 0.5),
+        axis.text.y = element_text(colour = "grey20", size = 12)
+        )
 
+# "Note that it is also possible to change the fonts of your plots. 
+# If you are on Windows, you may have to install the extrafont package, 
+# and follow the instructions included in the README for this package."
 
-
+# can define a theme beforehand, 
+# and apply to multiple plots 
+# (or increase readability)
 grey_theme <- theme(axis.text.x = element_text(colour = "grey20", size = 12,
                                                angle = 45, hjust = 0.5,
                                                vjust = 0.5),
@@ -389,6 +553,24 @@ percent_items %>%
 # - https://davidmathlogic.com/colorblind/#%23D81B60-%231E88E5-%23FFC107-%23004D40
 # - https://www.nature.com/articles/nmeth.1618
 # - https://personal.sron.nl/~pault/
+
+
+
+# <GO OVER SOME SUGGESTIONS>
+
+
+
+# making bars white/black
+percent_items %>%
+    ggplot(aes(x = village, y = percent)) +
+    geom_bar(stat = "identity", position = "dodge", color='black', fill='white') +
+    facet_wrap(~ items) +
+    labs(title = "Percent of respondents in each village \n who owned each item",
+         x = "Village",
+         y = "Percent of Respondents") 
+    #+ grey_theme 
+    
+
 
 
 ################################################################################
@@ -428,7 +610,13 @@ martijntheme <- theme(#legend.position="none",
 my_plot_martijn <- my_plot + martijntheme
 
 dir.create('fig_output')
-ggsave('fig_output/myplot.pdf', my_plot, width=5, height =5, units = 'cm', device=cairo_pdf)
+ggsave('fig_output/myplot.pdf', my_plot, width=5, height =5, units = 'cm', device=cairo_pdf, dpi=600)
+    # this is for macbook! (not sure advice applies windows)
+    # earlier note carpentries:
+        # "Note that it is also possible to change the fonts of your plots. 
+        # If you are on Windows, you may have to install the extrafont package, 
+        # and follow the instructions included in the README for this package."
+
 # compare with png version!
 
 
