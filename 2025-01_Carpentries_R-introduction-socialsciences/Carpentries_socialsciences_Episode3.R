@@ -106,7 +106,8 @@ df_interviews2[,1, drop=FALSE]
 
 # (A)
 # Create a tibble (interviews_100) containing only the data in row 100 of the interviews dataset.
-#
+interviews_100 <- df_interviews[100,]
+interviews_100
 # Now, continue using interviews for each of the following activities:
 # (B)
 # Notice how nrow() gave you the number of rows in the tibble?

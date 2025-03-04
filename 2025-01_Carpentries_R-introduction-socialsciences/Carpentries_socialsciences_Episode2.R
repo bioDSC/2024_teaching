@@ -56,6 +56,15 @@ area_hectares <- 50
 # based on the current values of r_length and r_width. Show that changing the values of either 
 # r_length and r_width does not affect the value of r_area.
 
+r_length <- 10
+r_width  <- 3.14
+
+r_area <- r_length * r_width
+
+r_length <- 20
+
+r_area <- r_length * r_width
+
 
 
 # <GO OVER SOLUTION TOGETHER>
@@ -91,10 +100,12 @@ round(digits=2, x=3.14159)
 # What other functions exist that are similar to round? How do you use the digits 
 # parameter in the round function?
 
+?round
 
 # <GO OVER SOLUTION TOGETHER>
 
-
+ceiling(3.9)
+ceiling(3.1)
 
 ########################################
 
@@ -151,22 +162,30 @@ posesesions <- c('car', possessions) # add at beginning
 # integer, and logical. But what happens if we try to mix these types in a single vector?
 # 
 # (B)
-# What will happen in each of these examples? (hint: use class() to check the data type of your objects):
+# What will happen in each of these examples? (hint: use class() to check the data type
+# of your objects):
 # 
 # R
-# num_char <- c(1, 2, 3, "a")
-# num_logical <- c(1, 2, 3, TRUE)
-# char_logical <- c("a", "b", "c", TRUE)
-# tricky <- c(1, 2, 3, "4")
-# Why do you think it happens?
+num_char <- c(1, 2, 3, "a")
+num_logical <- c(1, 2, 3, TRUE)
+char_logical <- c("a", "b", "c", TRUE)
+tricky <- c(1, 2, 3, "4")
+Why do you think it happens?
+
+class(num_char)
+class(num_logical)
+num_logical
+class(char_logical)
+class(tricky)
+
 # 
 # (C)
 # How many values in combined_logical are "TRUE" (as a character) in the following example:
 # 
 # R
-# num_logical <- c(1, 2, 3, TRUE)
-# char_logical <- c("a", "b", "c", TRUE)
-# combined_logical <- c(num_logical, char_logical)
+num_logical <- c(1, 2, 3, TRUE)
+char_logical <- c("a", "b", "c", TRUE)
+combined_logical <- c(num_logical, char_logical)
 #
 # (D)
 # You’ve probably noticed that objects of different types get converted into a single, 
@@ -264,13 +283,29 @@ rooms[complete.cases(rooms)]
 # Exercise
 #
 # 1. Using this vector of rooms, create a new vector with the NAs removed.
-# rooms <- c(1, 2, 1, 1, NA, 3, 1, 3, 2, 1, 1, 8, 3, 1, NA, 1)
+rooms <- c(1, 2, 1, 1, NA, 3, 1, 3, 2, 1, 1, 8, 3, 1, NA, 1)
+na.omit(rooms)
+rooms[ !is.na(rooms) ]
+rooms[ complete.cases(rooms) ]
+
+rooms_NAremoved <- na.omit(rooms)
+rooms_NAremoved
+
 # 
 # 2. Use the function median() to calculate the median of the rooms vector.
+
+median( rooms, na.rm = TRUE)
+median( rooms_NAremoved )
+
 # 
 # 3. Use R to figure out how many households in the set use more than 2 rooms for sleeping.
+# (assume the numbers given are # of bedrooms)
 
+rooms[ rooms > 2 ]
+rooms_NAremoved[ rooms_NAremoved > 2 ]
+length(rooms_NAremoved[ rooms_NAremoved > 2 ])
 
+sum(rooms > 2, na.rm = TRUE)
 
 # <GO OVER SOLUTION TOGETHER>
 
