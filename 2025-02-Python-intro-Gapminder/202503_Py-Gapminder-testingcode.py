@@ -274,3 +274,11 @@ for apple_weight, pear_weight in zip(apples, pears):
     print('weigth apple: ', apple_weight)
     print('weigth pear: ',pear_weight)
     
+################################################################################
+
+def testfun():
+    a = 5+10
+    11
+    
+print(testfun())
+    
