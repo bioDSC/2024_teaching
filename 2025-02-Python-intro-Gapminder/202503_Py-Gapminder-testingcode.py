@@ -243,3 +243,34 @@ for idx_i in range(6):
         
 plt.show()
 plt.close('all')
+
+################################################################################
+
+for idx1 in [1,2]:
+    for idx2 in range(3):
+        for idx3 in [6,5,0]:
+            print('product = ', idx1*idx2*idx3)
+            
+################################################################################            
+
+example_list = [1,2,3,4,-5,1,34,6,-10]
+example_list_pos = [item for item in example_list if item > 0]
+print(example_list_pos)
+
+################################################################################
+
+for idx, item in enumerate([1,2,3,4,-5,1,34,6,-10]):
+    
+    if item>5:
+        print(idx)
+        
+################################################################################        
+        
+apples = [123, 436, 123, 654, 117, 193, 120]
+pears  = [543, 163, 178, 165, 123, 187, 190]
+
+for apple_weight, pear_weight in zip(apples, pears):
+    print('='*10)
+    print('weigth apple: ', apple_weight)
+    print('weigth pear: ',pear_weight)
+    
