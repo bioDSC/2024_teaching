@@ -281,4 +281,14 @@ def testfun():
     11
     
 print(testfun())
+
+################################################################################
     
+element = 'lithium'
+
+element[-7]
+element[-6]
+element[-7:0]
+
+element[-7:3]
+element[-17:3]
