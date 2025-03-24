@@ -292,3 +292,141 @@ element[-7:0]
 
 element[-7:3]
 element[-17:3]
+
+################################################################################
+
+
+a = 1
+b = a
+b = 3
+print(a,b)
+
+################################################################################
+
+old = list('gold')
+old
+
+new = old
+new[0] = 'D'
+
+print(old, new)
+
+################################################################################
+
+old = [1,2,3,4]
+old
+
+new = old[:]
+new[0] = 5
+
+print(old, new)
+
+################################################################################
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('/Users/m.wehrens/Data_UVA/2024_teaching/2025-03-gapminder/data/gapminder_gdp_oceania.csv', \
+    index_col='country')
+
+data.head()
+
+data['Year'] = data.index
+
+data.T.head()
+
+sns.lineplot(x=data.columns, y = data.loc['Australia',:])
+# plt.show(); plt.close()
+
+# why do we see ugly axis?
+    # we'll do something about this later
+    
+# more convenient:
+    # dfs as input directly
+    # certain expecations from the data
+    # series to plot should be in columns
+    
+    # re-arrange our df
+    
+data.head()    
+    
+data_transposed = data.T
+data_transposed['Year'] = data.columns
+data_transposed.head()
+
+# more re-arrangements needed for full options
+
+# "long format"
+
+    # column = variable or condition
+    # row = measurement
+    
+    # Current format:
+    # country           Australia  New Zealand            Year
+    # gdpPercap_1952  10039.59564  10556.57566  gdpPercap_1952
+    # gdpPercap_1957  10949.64959  12247.39532  gdpPercap_1957
+    # gdpPercap_1962  12217.22686  13175.67800  gdpPercap_1962
+    # gdpPercap_1967  14526.12465  14463.91893  gdpPercap_1967
+    # gdpPercap_1972  16788.62948  16046.03728  gdpPercap_1972
+    # (..)
+    #
+    # Goal:
+    #             Year      Country          GDP
+    # 0   gdpPercap_1952    Australia  10039.59564
+    # 1   gdpPercap_1957    Australia  10949.64959
+    # 2   gdpPercap_1962    Australia  12217.22686
+    # 3   gdpPercap_1967    Australia  14526.12465
+    # 4   gdpPercap_1972    Australia  16788.62948
+    # 5   gdpPercap_1977    Australia  18334.19751
+    # 6   gdpPercap_1982    Australia  19477.00928
+    # 7   gdpPercap_1987    Australia  21888.88903
+    # 8   gdpPercap_1992    Australia  23424.76683
+    # 9   gdpPercap_1997    Australia  26997.93657
+    # 10  gdpPercap_2002    Australia  30687.75473
+    # 11  gdpPercap_2007    Australia  34435.36744
+    # 12  gdpPercap_1952  New Zealand  10556.57566
+    # (..)
+
+data_long = data_transposed.melt(id_vars='Year', var_name='Country', value_name='GDP')
+    # id_vars: identifier variables
+    #   identifying a specific observation
+    #   keep those
+    #       new id vars will be added, in this case country
+    # var_name: name used the new id parameter
+        # here, column names Australia, New Zealand ---> these are countries
+    # value_name: name given to the values, which are taken from multiple columns
+    # 
+    #    - Identifier variables are called this because they uniquely **identify a specific observation** in the dataset. 
+    #      These variables are not measured or calculated but instead serve to distinguish one observation from another.
+    #    - In your example, `Year` and `Country` are identifier variables because they uniquely identify each observation (e.g., GDP of Australia in 1952).
+
+data2 = data.copy()
+data2['Country']=data2.index
+data_long2 = data2.melt(id_vars='Country', var_name='Year', value_name='GDP')
+
+    # Let's not go into technicalities
+    # list1 = [1,2,3]
+    # list2 = list1
+    # list2[1] = 44
+    # list1
+    # list2
+
+# search and replace
+    # keep year
+    # remove rest
+
+years = data.columns.str.replace('gdpPercap_', '')
+    # MW:
+    # "str" is a method which holds more methods 
+        # related to string operations
+        # str is also part of python standard library
+        # stand-alone example: str.replace('hoi', 'oi', '') 
+
+# convert to int
+# put back in dataframe
+data.columns = years.astype(int)
+
+sns.lineplot(data.loc['Australia'], x='years', y=
+
+data.loc['Australia'].plot()
