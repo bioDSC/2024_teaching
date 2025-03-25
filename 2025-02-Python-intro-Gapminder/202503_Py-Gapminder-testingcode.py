@@ -327,14 +327,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-data = pd.read_csv('/Users/m.wehrens/Data_UVA/2024_teaching/2025-03-gapminder/data/gapminder_gdp_oceania.csv', \
-    index_col='country')
+data = pd.read_csv('/Users/m.wehrens/Data_UVA/2024_teaching/2025-03-gapminder/data/gapminder_gdp_oceania.csv', index_col='country')
 
 data.head()
-
-data['Year'] = data.index
-
-data.T.head()
 
 sns.lineplot(x=data.columns, y = data.loc['Australia',:])
 # plt.show(); plt.close()
@@ -348,12 +343,13 @@ sns.lineplot(x=data.columns, y = data.loc['Australia',:])
     # series to plot should be in columns
     
     # re-arrange our df
-    
-data.head()    
-    
+        
 data_transposed = data.T
 data_transposed['Year'] = data.columns
 data_transposed.head()
+
+sns.lineplot(data_transposed, x='Year', y = 'Australia')
+plt.show(); plt.close()
 
 # more re-arrangements needed for full options
 
@@ -399,24 +395,36 @@ data_long = data_transposed.melt(id_vars='Year', var_name='Country', value_name=
     # 
     #    - Identifier variables are called this because they uniquely **identify a specific observation** in the dataset. 
     #      These variables are not measured or calculated but instead serve to distinguish one observation from another.
-    #    - In your example, `Year` and `Country` are identifier variables because they uniquely identify each observation (e.g., GDP of Australia in 1952).
+    #    - In this example, `Year` and `Country` are identifier variables because they uniquely identify each observation 
+    #      (e.g., GDP of Australia in 1952).
 
+# OPTIONAL ? ##########
 data2 = data.copy()
 data2['Country']=data2.index
 data_long2 = data2.melt(id_vars='Country', var_name='Year', value_name='GDP')
 
     # Let's not go into technicalities
+        # sometimes a = b
+            # a "reference" is made
+            # instead of new parameter
     # list1 = [1,2,3]
     # list2 = list1
     # list2[1] = 44
     # list1
     # list2
+# END OPTIONAL ##########
+
+sns.lineplot(data_long, x='Year', y = 'GDP', hue='Country')
+plt.show(); plt.close()
+
+# Finally
+    # Fix years
 
 # search and replace
     # keep year
     # remove rest
 
-years = data.columns.str.replace('gdpPercap_', '')
+years = data_long['Year'].str.replace('gdpPercap_', '')
     # MW:
     # "str" is a method which holds more methods 
         # related to string operations
@@ -425,8 +433,10 @@ years = data.columns.str.replace('gdpPercap_', '')
 
 # convert to int
 # put back in dataframe
-data.columns = years.astype(int)
+data_long['Year'] = years.astype(int)
 
-sns.lineplot(data.loc['Australia'], x='years', y=
+# Plot again
+sns.lineplot(data_long, x='Year', y = 'GDP', hue='Country')
+plt.show(); plt.close()
 
-data.loc['Australia'].plot()
+

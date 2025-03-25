@@ -1,0 +1,320 @@
+
+############################################################
+
+# Exercises Lesson 2, variables
+
+#### 1. Order of things
+
+##### A
+
+Fill the table showing the values of the variables in this program after each statement is executed.
+
+```Python
+# Command  # Value of x   # Value of y   # Value of swap #
+x = 1.0    #              #              #               #
+y = 3.0    #              #              #               #
+swap = x   #              #              #               #
+x = y      #              #              #               #
+y = swap   #              #              #               #
+```
+
+##### B
+
+What is the final value of position in the program below? (Try to predict the value without running the program, then check your prediction.)
+
+```Python
+initial = 'left'
+position = initial
+initial = 'right'
+```
+
+#### "Challenge"
+
+If you assign a = 123, what happens if you try to get the second digit of a via a[1]?
+
+
+#### Slicing
+
+<!-- REMOVED TO SAVE TIME
+##### A
+
+What does the following program print?
+
+```
+atom_name = 'carbon'
+print('atom_name[1:3] is:', atom_name[1:3])
+```
+
+###### B
+-->
+
+Given the following string:
+```Python
+species_name = "Acacia buxifolia"
+```
+what would these expressions return?
+
+```Python
+species_name[2:8]
+species_name[11:] (without a value after the colon)
+species_name[:4] (without a value before the colon)
+species_name[:] (just a colon)
+species_name[11:-3]
+species_name[-5:-3]
+```
+
+What happens when you choose a stop value which is out of range? (i.e., try species_name[0:20] or species_name[:103])
+
+## Lesson 2, additional exercises 
+
+#### Naming (Carpentries)
+
+Which is a better variable name, m, min, or minutes? Why? Hint: think about which code you would rather inherit from someone who is leaving the lab:
+
+```Python
+ts = m * 60 + s
+tot_sec = min * 60 + sec
+total_seconds = minutes * 60 + seconds
+```
+
+#### Additional exercises for fast participants (by bioDSC)
+
+What's happening here:
+
+```Python
+
+# use Google or chatGPT if you don't know the answers
+# if you're at the end, try to play around more
+
+greetings_strings = ['hello', 'bye', 'later']
+print(greetings_strings[0])
+print(greetings_strings[1][2])
+    # (list of lists)
+
+print([greetings_strings[idx] for idx in [0, 2]])
+print([greetings_strings[0][idx] for idx in [0, 2, 4]])
+print([greetings_strings[0][idx] for idx in range(0,4,2)])
+    # using a loop (will be covered later) / list comprehension
+
+square_values = [number**2 for number in range(10)]
+square_values_string = [str(number**2) for number in range(10)]
+print(square_values)
+print(square_values_string)
+    # types will be the topic of the next lesson
+
+species_name = "Acacia buxifolia"
+print("".join([species_name[i] for i in range(10, 2, -1)]))
+    # convenient command when working with strings
+
+print(species_name.replace('Aca', 'Bole'))
+    # another convenient command
+
+# Exercise:
+list_of_species = ['','','','']
+list_of_species = ['Homo sapiens', 'Escherichia Coli', 'Pan troglodytes', 'Canis lupus', 'Felis catus']
+# Create a new lists, where you remove all letters 'e'
+```
+
+############################################################
+
+# Exercises Lesson 3, types
+
+### Types
+
+#### A
+
+What type of value is 3.4? How can you find out?
+
+#### B
+
+What type of value is 3.25 + 4?
+
+#### C 
+
+What type of value (integer, floating point number, or character string) would you use to represent each of the following? Try to come up with more than one good answer for each problem. For example, in # 1, when would counting days with a floating point variable make more sense than using an integer?
+
+- Number of days since the start of the year.
+- Time elapsed from the start of the year until now in days.
+- Serial number of a piece of lab equipment.
+- A lab specimen’s age
+- Current population of a city.
+- Average population of a city over time.
+
+#### D (added bioDSC)
+
+Why wouldn't you always use floats, and never use integers?
+
+
+### Strings to numbers
+
+Where reasonable, float() will convert a string to a floating point number, and int() will convert a floating point number to an integer:
+
+```Python
+print("string to float:", float("3.4"))
+print("float to int:", int(3.4))
+```
+
+```
+OUTPUT:
+string to float: 3.4
+float to int: 3
+If the conversion doesn’t make sense, however, an error message will occur.
+```
+
+```Python
+print("string to float:", float("Hello world!"))
+```
+
+Given this information, what do you expect the following program to do?
+
+What does it actually do?
+
+Why do you think it does that?
+
+```Python
+print("fractional string to int:", int("3.4"))
+```
+
+Which of the following will return the floating point number 2.0? Note: there may be more than one right answer.
+
+```Python
+first = 1.0
+second = "1"
+third = "1.1"
+```
+
+```
+1. first + float(second)
+2. float(second) + float(third)
+3. first + int(third)
+4. first + int(float(third))
+5. int(first) + int(float(third))
+6. 2.0 * second
+```
+
+# Lesson 3, optional exercises
+
+### Additional exercises for fast participants
+
+#### Lists
+
+We'll cover lists later in lesson 11, but let's already take a brief look.
+
+A list is a series of elements bound together, where each element can have a value. They are defined as follows:
+
+```
+numbers = [1,2,3]
+fruits = ['apples', 'pears', 'oranges']
+physical_constants = ['pi', 3.14, 'c', 299_792_458, 'mole', 6.022e23]
+```
+
+Elements can be accessed the same way as we saw with strings.
+
+#### A
+
+What will `numbers[1]` return? And `physical_constants[2:4]`?
+
+#### B
+
+What is the type of 
+- `numbers`?
+- `numbers[1]`?
+- `physical_constants`?
+- `physical_constants[1]`?
+- `physical_constants[2]`?
+- `physical_constants[3]`?
+- `fruits`?
+- `fruits[1]`?
+
+#### C
+
+Can the elements in a list have different types? (This can be seen from the previous answer.)
+
+#### np.array
+
+Lists can be a useful tool, but for example in image analysis, don't offer the full mathematical options one might like. `numpy` arrays introduce a new type of series, in which you can do more manipulations. See some examples below:
+
+```Python
+import numpy as np
+my_array = [1,2,3,5]
+my_array_np = np.array([1,2,3,5])
+
+# what's the difference here:
+# my_array+1 # commented because gives error, why?
+my_array_np+1
+
+# what's the difference here:
+my_array * 3
+my_array_np * 3
+
+# more:
+my_array + [1,2,3,4]
+my_array_np + np.array([1,2,3,4])
+np.sin(my_array_np)
+
+# numpy-specific things, what is happening?
+my_array_np[range(1,4,2)]
+my_array_np[my_array_np>1]
+
+# Can numpy arrays have different types?
+# What is the type of the elements in these two arrays?
+np.array([1,2,3,'4'])
+np.array([1,2,3,'hello'])
+```
+
+#### Dict
+
+Python has more types. A `dict` is sometimes very convenient, and is also used later with creating tables.
+
+```Python
+experimental_replicate_list = {'WT': 12, 'mut': 32, 'WT.cond1': 10, 'mut.cond1': 12}
+print(experimental_replicte_list)
+
+print(experimental_replicate_list['WT'])
+
+# Exercise:
+# Edit the following code such that we get replicate numbers for conditions involving WT
+my_keys = experimental_replicate_list.keys()
+print(my_keys)
+my_keys_of_interest = [the_key for the_key in my_keys if 'mut' in the_key] # edit this line
+print(my_keys_of_interest)
+print([experimental_replicate_list[sel_key] for sel_key in my_keys_of_interest])
+
+# The above code uses several lines, can you do this in one line?
+print(...) # edit this line
+```
+
+### Special maths (Carpentries)
+
+In Python 3, the `//` operator performs integer (whole-number) floor division, the `/` operator performs floating-point division, and the `%` (or modulo) operator calculates and returns the remainder from integer division:
+
+```Python
+print('5 // 3:', 5 // 3)
+print('5 / 3:', 5 / 3)
+print('5 % 3:', 5 % 3)
+```
+
+```
+OUTPUT:
+5 // 3: 1
+5 / 3: 1.6666666666666667
+5 % 3: 2
+```
+
+If num_subjects is the number of subjects taking part in a study, and num_per_survey is the number that can take part in a single survey, write an expression that calculates the number of surveys needed to reach everyone once.
+
+### Complex numbers (Carpentries)
+
+Python provides complex numbers, which are written as 1.0+2.0j. If val is a complex number, its real and imaginary parts can be accessed using dot notation as val.real and val.imag.
+
+```Python
+a_complex_number = 6 + 2j
+print(a_complex_number.real)
+print(a_complex_number.imag)
+```
+
+##### Questions:
+1. Why do you think Python uses j instead of i for the imaginary part?
+2. What do you expect 1 + 2j + 3 to produce?
+3. What do you expect 4j to be? What about 4 j or 4 + j?
+
