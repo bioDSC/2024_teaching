@@ -1,7 +1,10 @@
 
 ############################################################
+---
 
 # Exercises Lesson 2, variables
+
+
 
 #### 1. Order of things
 
@@ -65,6 +68,9 @@ species_name[-5:-3]
 
 What happens when you choose a stop value which is out of range? (i.e., try species_name[0:20] or species_name[:103])
 
+############################################################
+---
+
 ## Lesson 2, additional exercises 
 
 #### Naming (Carpentries)
@@ -116,6 +122,7 @@ list_of_species = ['Homo sapiens', 'Escherichia Coli', 'Pan troglodytes', 'Canis
 ```
 
 ############################################################
+---
 
 # Exercises Lesson 3, types
 
@@ -192,9 +199,10 @@ third = "1.1"
 6. 2.0 * second
 ```
 
-# Lesson 3, optional exercises
+############################################################
+---
 
-### Additional exercises for fast participants
+# Lesson 3, additional exercises
 
 #### Lists
 
@@ -317,4 +325,727 @@ print(a_complex_number.imag)
 1. Why do you think Python uses j instead of i for the imaginary part?
 2. What do you expect 1 + 2j + 3 to produce?
 3. What do you expect 4j to be? What about 4 j or 4 + j?
+
+############################################################
+---
+
+# Exercises Lesson 4, functions (1)
+
+## Exercises
+
+#### Order
+
+- Explain in simple terms the order of operations in the following program: when does the addition happen, when does the subtraction happen, when is each function called, etc.
+- What is the final value of radiance?
+
+```Python
+radiance = 1.0
+radiance = max(2.1, 2.0 + min(radiance, 1.1 * radiance - 0.5))
+```
+
+#### Last string character
+
+If Python starts counting from zero, and len returns the number of characters in a string, what index expression will get the last character in the string name? (Note: we will see a simpler way to do this in a later episode.)
+
+############################################################
+---
+
+# Additional exercises Lesson 4
+
+#### Why not?
+
+Why is it that max and min do not return None when they are called with no arguments?
+
+#### Spot the difference
+
+Predict what each of the print statements in the program below will print.
+Does max(len(rich), poor) run or produce an error message? If it runs, does its result make any sense?
+
+```Python
+easy_string = "abc"
+print(max(easy_string))
+rich = "gold"
+poor = "tin"
+print(max(rich, poor))
+print(max(len(rich), len(poor)))
+```
+
+############################################################
+---
+
+*(Lesson 5 is a break.)*
+
+############################################################
+---
+
+# Exercises Lesson 6, libraries
+
+# Exercises
+
+#### Explore
+
+- What function from the math module can you use to calculate a square root without using sqrt?
+- Since the library contains this function, why does sqrt exist?
+
+#### Find the right module
+
+You want to select a random character from a string:
+
+```Python
+bases = 'ACTTGCTTGAC'
+```
+
+- Which standard library module could help you?
+- Which function would you select from that module? Are there alternatives?
+- Try to write a program that uses the function.
+
+
+#### Help!
+
+When a colleague of yours types help(math), Python reports an error:
+
+```
+NameError: name 'math' is not defined
+```
+
+What has your colleague forgotten to do?
+
+#### Importing with aliases
+
+- Fill in the blanks so that the program below prints 90.0.
+- Rewrite the program so that it uses import without as.
+- Which form do you find easier to read?
+
+```Python
+import math as m
+angle = ____.degrees(____.pi / 2)
+print(____)
+```
+
+#### Multiple ways of importing
+
+Match the following print statements with the appropriate library calls.
+
+Print commands:
+
+- `print("sin(pi/2) =", sin(pi/2))`
+- `print("sin(pi/2) =", m.sin(m.pi/2))`
+- `print("sin(pi/2) =", math.sin(math.pi/2))`
+
+Library calls:
+
+- `from math import sin, pi`
+- `import math`
+- `import math as m`
+- `from math import *`
+
+
+############################################################
+---
+
+# Additional Exercises Lesson 6, Libraries
+
+#### "Jigsaw": progamming example
+
+Rearrange the following statements so that a random DNA base is printed and its index in the string. Not all statements may be needed. Feel free to use/add intermediate variables.
+
+```Python
+bases="ACTTGCTTGAC"
+import math
+import random
+___ = random.randrange(n_bases)
+___ = len(bases)
+print("random base ", bases[___], "base index", ___)
+```
+
+#### Importing specific items
+
+- Fill in the blanks so that the program below prints 90.0.
+- Do you find this version easier to read than preceding ones?
+- Why wouldn’t programmers always use this form of import?
+
+```Python
+____ math import ____, ____
+angle = degrees(pi / 2)
+print(angle)
+```
+
+#### Reading error messages
+
+Read the code below and try to identify what the errors are without running it.
+Run the code, and read the error message. What type of error is it?
+
+```Python
+from math import log
+log(0)
+```
+
+# Exercises for fast participants
+
+#### Write your own
+
+When you have a notebook file, you can also create another file, with a .py extension, and write functions in that file. The .py file can be imported like a library, and the functions in the file can be used as if they came from a library.
+
+##### Exercise
+
+Using the information below, try to 
+- create two files, one `.ipynb` (notebook) file and one `.py` (python plain text code) file.
+- rename the `myfunctionname` functions in the `.py` file and use them in the notebook.
+- create a third function, which returns C when you provide A and B, assuming `A^2+B^2 = C^2`, and use it in your notebook.
+
+Useful things to know:
+- You can also make `.py` files. Unlike notebooks, every text here is assumed to be python code.
+- *For Jypiter notebooks*: 
+    - You can make a .py file with `file > new > python file`.        
+        - Save the file to `myfilename.py` (replacing myfilename with your own favorite name).
+- *For Google colabs: 
+    - To create a `.py` file, right click in the file overview (where you also put the gapminder `.csv` files), and select 'new file'. Then create a file 'myfilename.py' and double click to edit it.*
+- You can import your file in a python notebook using:
+    - `import myfilename` where `myfilename.py` should exist and hold your code. You can also put your file in a directory, but then you need to import it like `import mydirectoryname.myfilename`.
+
+You can write a function using the following template:
+
+```Python
+
+def myfunctionname():
+    print("hello world")
+    
+def myfunctionname2(input1, input2):
+    print("input 1 = ", input1, ', input 2 = ', input2)
+
+```
+
+############################################################
+---
+
+# Exercises lesson 7, dataframes (1)
+
+#### Reading other data
+
+Read the data in gapminder_gdp_americas.csv (which should be in the same directory as gapminder_gdp_oceania.csv) into a variable called data_americas and display its summary statistics.
+
+#### Inspecting data
+
+After reading the data for the Americas, use help(data_americas.head) and help(data_americas.tail) to find out what DataFrame.head and DataFrame.tail do.
+
+- What method call will display the first three rows of this data?
+- What method call will display the last three columns of this data? (Hint: you may need to change your view of the data.)
+
+
+#### Navigating directories
+
+The data for your current project is stored in a file called microbes.csv, which is located in a folder called field_data. You are doing analysis in a notebook called analysis.ipynb in a sibling folder called thesis:
+
+```
+your_home_directory
++-- field_data/
+|   +-- microbes.csv
++-- thesis/
+    +-- analysis.ipynb
+```
+
+What value(s) should you pass to read_csv to read microbes.csv in analysis.ipynb?
+
+#### Writing data
+
+As well as the read_csv function for reading data from a file, Pandas provides a to_csv function to write dataframes to files. Applying what you’ve learned about reading from files, write one of your dataframes to a file called processed.csv. You can use help to get information on how to use to_csv.
+
+##################################################
+---
+
+# Additional exercises for Lesson 7, dataframes (1)
+
+## Exercises for fast participants
+
+- Create a plain text file on your computer, and give it the extension `.csv`.
+- Find out what the comma-separated format looks like.
+- Use your imagination to complete the following table and put it in the `.csv` file. 
+
+|replicate| cond1   |  cond2 |
+|---|---|---|
+|   | 10  |   |
+|   | 11 |   |
+|   | 10  |   |
+|   | 12  |   |
+|   | 13  |   |
+|   | 13  |   |
+
+- Now try to read in that table in your python notebook.
+- Get the following code to run on your dataframe (referred to as `df` below):
+```python
+from scipy.stats import ttest_ind
+t_stat, p_value = ttest_ind(df['cond1'], df['cond2'])
+print(f"T-statistic: {t_stat}, P-value: {p_value}")
+```
+- What does that code do? 
+- Let's do some unethical data massaging, and tweak the csv such that you get a significant p-val.
+
+##################################################
+---
+
+# Exercises for lesson 8, dataframes (2)
+
+### Selection individual values
+
+Import data for europe:
+
+```
+import pandas as pd
+data_europe = pd.read_csv('data/gapminder_gdp_europe.csv', index_col='country')
+```
+
+Find the GDP Capita of Serbia in 2007.
+
+### Extent of slicing
+
+- Do the two statements below produce the same output?
+- Based on this, what rule governs what is included (or not) in numerical slices and named slices in Pandas?
+
+```python
+print(data_europe.iloc[0:2, 0:2])
+print(data_europe.loc['Albania':'Belgium', 'gdpPercap_1952':'gdpPercap_1962'])
+```
+
+### Reconstructing Data
+
+Explain what each line in the following short program does: what is in first, second, etc.?
+
+```python
+first = pd.read_csv('data/gapminder_all.csv', index_col='country')
+second = first[first['continent'] == 'Americas']
+third = second.drop('Puerto Rico')
+fourth = third.drop('continent', axis = 1)
+fourth.to_csv('result.csv')
+```
+
+### Selecting Indices
+
+Explain in simple terms what idxmin and idxmax do in the short program below. When would you use these methods?
+
+```python
+data = pd.read_csv('data/gapminder_gdp_europe.csv', index_col='country')
+print(data.idxmin())
+print(data.idxmax())
+```
+
+### Practice with Selection
+
+Assume Pandas has been imported and the Gapminder GDP data for Europe has been loaded. Write an expression to select each of the following:
+
+- GDP per capita for all countries in 1982.
+- GDP per capita for Denmark for all years.
+- GDP per capita for all countries for years after 1985.
+- GDP per capita for each country in 2007 as a multiple of GDP per capita for that country in 1952.
+
+### Many Ways of Access
+
+There are at least two ways of accessing a value or slice of a DataFrame: by name or index. However, there are many others. For example, a single column or row can be accessed either as a DataFrame or a Series object.
+
+Suggest different ways of doing the following operations on a DataFrame:
+
+- Access a single column
+- Access a single row
+- Access an individual DataFrame element
+- Access several columns
+- Access several rows
+- Access a subset of specific rows and columns
+- Access a subset of row and column ranges
+
+##################################################
+---
+
+# Additional exercises Lesson 8, dataframes (2)
+
+### Gene expression (bioDSC)
+
+- Convert the data below to a csv file, import it to a pandas df, and determine the following:
+    - The average CRP gene expression per condion.
+    - The corresponding standard deviations.
+    - The log2-fold change between WT, condition A, and condition B.
+    - Do the same for ACTA1.
+    - Normalize all gene expression levels to their average respective wild type levels.
+
+```
+gene	expression	condition
+CRP	873	WT
+CRP	324	WT
+CRP	214	WT
+CRP	151	WT
+CRP	1220	A
+CRP	450	A
+CRP	300	A
+CRP	210	A
+CRP	800	B
+CRP	200	B
+CRP	200	B
+CRP	130	B
+ACTA1	7457	WT
+ACTA1	2342	WT
+ACTA1	8000	WT
+ACTA1	9000	WT
+ACTA1	6500	A
+ACTA1	2200	A
+ACTA1	7500	A
+ACTA1	8000	A
+ACTA1	1000	B
+ACTA1	1123	B
+ACTA1	3211	B
+ACTA1	1231	B
+```
+
+### GDPs (bioDSC)
+
+- Between '87 and '92 the GDP of most countries took a hit. Are there any countries which had a positive increase between those two years? Which ones?
+- Calculate the average GDP between all European countries per year.
+    - Normalize the dataframe by this trend.
+
+
+### Exploring available methods using the dir() function
+
+Python includes a dir() function that can be used to display all of the available methods (functions) that are built into a data object. In Episode 4, we used some methods with a string. But we can see many more are available by using dir():
+
+```python
+my_string = 'Hello world!'   # creation of a string object 
+dir(my_string)
+```
+
+This command returns:
+
+```python
+['__add__',
+...
+'__subclasshook__',
+'capitalize',
+'casefold',
+'center',
+...
+'upper',
+'zfill']
+```
+
+You can use help() or Shift+Tab to get more information about what these methods do.
+
+Assume Pandas has been imported and the Gapminder GDP data for Europe has been loaded as data. Then, use dir() to find the function that prints out the median per-capita GDP across all European countries for each year that information is available.
+
+### Interpretation
+
+Poland’s borders have been stable since 1945, but changed several times in the years before then. How would you handle this if you were creating a table of GDP per capita for Poland for the entire twentieth century?
+
+##################################################
+---
+
+# Exercises Lesson 9, plotting
+
+!To do!
+
+##################################################
+---
+
+*(Lesson 10 is a break.)*
+
+##################################################
+---
+
+# Exercises Lesson 11, Lists
+
+### Fill in the blanks
+
+Fill in the blanks so that the program below produces the output shown.
+
+```python
+values = ____
+values.____(1)
+values.____(3)
+values.____(5)
+print('first time:', values)
+values = values[____]
+print('second time:', values)
+```
+
+Output:
+```
+first time: [1, 3, 5]
+second time: [3, 5]
+```
+
+### How Large is a Slice?
+
+If start and stop are both non-negative integers, how long is the list values[start:stop]?
+
+### From Strings to Lists and Back
+
+Given this:
+
+```python
+print('string to list:', list('tin'))
+print('list to string:', ''.join(['g', 'o', 'l', 'd']))
+```
+
+OUTPUT:
+```
+string to list: ['t', 'i', 'n']
+list to string: gold
+```
+
+- What does list('some string') do?
+- What does '-'.join(['x', 'y', 'z']) generate?
+
+### Working With the End
+
+What does the following program print?
+
+```python
+element = 'helium'
+print(element[-1])
+```
+
+- How does Python interpret a negative index?
+- If a list or string has N elements, what is the most negative index that can safely be used with it, and what location does that index represent?
+- If values is a list, what does del values[-1] do?
+- How can you display all elements but the last one without changing values? (Hint: you will need to combine slicing and negative indexing.)
+
+### Stepping Through a List
+
+What does the following program print?
+
+```python
+element = 'fluorine'
+print(element[::2])
+print(element[::-1])
+```
+
+- If we write a slice as low:high:stride, what does stride do?
+- What expression would select all of the even-numbered items from a collection?
+
+##################################################
+---
+
+# Additional Exercises Lesson 11, Lists
+
+### Slice Bounds
+
+What does the following program print?
+
+```python
+element = 'lithium'
+print(element[0:20])
+print(element[-1:3])
+```
+
+### Sort and Sorted
+
+What do these two programs print? In simple terms, explain the difference between sorted(letters) and letters.sort().
+
+```python
+# Program A
+letters = list('gold')
+result = sorted(letters)
+print('letters is', letters, 'and result is', result)
+```
+
+```python
+# Program B
+letters = list('gold')
+result = letters.sort()
+print('letters is', letters, 'and result is', result)
+```
+
+### Copying (or Not)
+What do these two programs print? In simple terms, explain the difference between new = old and new = old[:].
+
+```python
+# Program A
+old = list('gold')
+new = old      # simple assignment
+new[0] = 'D'
+print('new is', new, 'and old is', old)
+```
+
+```python
+# Program B
+old = list('gold')
+new = old[:]   # assigning a slice
+new[0] = 'D'
+print('new is', new, 'and old is', old)
+```
+
+### Go to lesson 3 (bioDSC)
+
+- Do the additional exercises of lesson 3 if you haven't already.
+
+### Negative slicing (bioDSC)
+
+```python
+element = 'lithium'
+```
+
+What does `element[-7:3]` print and why?
+
+**Explanation:** https://www.geeksforgeeks.org/slicing-with-negative-numbers-in-python/
+
+### More list comprehensions and filtering (bioDSC)
+
+- Edit the following code such that the list consists of values `2x+x^2-1` where x is the index of the list element.
+
+`[x for x in range(10)]`
+
+- Now from that list, select values that are > 10, by modifying the following code:
+
+`[x for x in your_list if ______]`
+
+- Convert your list to a np.array, and do the same in a more elegant way.
+
+- Given: `list_withtop = [1000+-10*(x-7)**2 for x in range(20)]`
+    - Find the position of the maximum value in this array.
+    - Edit the code above such that the maximum value shifts to an index of your choice.   
+        - Check whether you succeedded by finding the maximum value.
+    - Multiply your list with `-1`, and put the result in another list.
+        - Where are now the maximum and minimum values?
+        - Does this make sense?
+    - `list_line = [70*x-1000 for x in range(20)]`
+        - What's the biggest value, either negative or positive, in this list?
+        - And the index of that number?
+        - What's the standard deviation?
+        - Can you calculate the correlation between list_withtop and list_line?
+        - Can you make a scatter plot of  list_withtop versus list_line?
+
+
+##################################################
+---
+
+# Exercises Lesson 12, Loops
+
+### Tracing Execution
+
+Create a table showing the numbers of the lines that are executed when this program runs, and the values of the variables after each line is executed.
+
+```python
+total = 0
+for char in "tin":
+    total = total + 1
+```
+
+|Step  | Line Number | Variable Values       |
+|------|-------------|-----------------------|
+|1 | 1           | total = 0             |
+|2 | ..           | total = 0, char = 't' |
+|3 | ..           | .. |
+|4 | ..           | .. |
+|5 | ..           | .. |
+|.. | ..           | .. |
+
+
+### Practice Accumulating
+Fill in the blanks in each of the programs below to produce the indicated result.
+
+```python
+# Total length of the strings in the list: ["red", "green", "blue"] => 12
+total = 0
+for word in ["red", "green", "blue"]:
+    ____ = ____ + len(word)
+print(total)
+```
+
+### Practice Accumulating 2 (continued)
+
+```python
+# List of word lengths: ["red", "green", "blue"] => [3, 5, 4]
+lengths = ____
+for word in ["red", "green", "blue"]:
+    lengths.____(____)
+print(lengths)
+```
+
+### Practice Accumulating 3 (continued)
+
+```python
+# Concatenate all words: ["red", "green", "blue"] => "redgreenblue"
+words = ["red", "green", "blue"]
+result = ____
+for ____ in ____:
+    ____
+print(result)
+```
+
+### Identifying Item Errors
+
+- Read the code below and try to identify what the errors are without running it.
+- Run the code, and read the error message. What type of error is it?
+- Fix the error.
+
+```python
+seasons = ['Spring', 'Summer', 'Fall', 'Winter']
+print('My favorite season is ', seasons[4])
+```
+
+##################################################
+---
+
+# Additional Exercises Lesson 12, Loops
+
+### Reversing a String
+
+Fill in the blanks in the program below so that it prints “nit” (the reverse of the original character string “tin”).
+
+```
+original = "tin"
+result = ____
+for char in original:
+    result = ____
+print(result)
+```
+
+**bioDSC hint**
+If this is challenging: 
+- try to first reproduce the word tin in result, using this loop. 
+- Use a similar approach as the examples we used.
+
+
+### Practice Accumulating (continued from above)
+
+Create an acronym: Starting from the list ["red", "green", "blue"], create the acronym "RGB" using a for loop.
+
+- **bioDSC remark**: Note the capitals in "RGB"!
+- **Hint**: You may need to use a string method to properly format the acronym.
+
+
+### Cumulative Sum (code puzzle)
+
+Reorder and properly indent the lines of code below so that they print a list with the cumulative sum of data. The result should be [1, 3, 5, 10].
+
+```python
+cumulative.append(total)
+for number in data:
+cumulative = []
+total = total + number
+total = 0
+print(cumulative)
+data = [1,2,2,5]
+```
+
+### Identifying Variable Name Errors
+
+- Read the code below and try to identify what the errors are without running it.
+- Run the code and read the error message. What type of NameError do you think this is? Is it a string with no quotes, a misspelled variable, or a variable that should have been defined but was not?
+- Fix the error.
+- Repeat steps 2 and 3, until you have fixed all the errors.
+
+```python
+for number in range(10):
+    # use a if the number is a multiple of 3, otherwise use b
+    if (Number % 3) == 0:
+        message = message + a
+    else:
+        message = message + "b"
+print(message)
+```
+
+### Classifying Errors
+
+Is an indentation error a syntax error or a runtime error?
+
+
+
+
+
 
