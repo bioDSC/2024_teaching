@@ -325,7 +325,10 @@ print(old, new)
 
 import pandas as pd
 import seaborn as sns
+
 import matplotlib.pyplot as plt
+
+plt.ion()
 
 data = pd.read_csv('/Users/m.wehrens/Data_UVA/2024_teaching/2025-03-gapminder/data/gapminder_gdp_oceania.csv', index_col='country')
 
@@ -415,6 +418,8 @@ data_long2 = data2.melt(id_vars='Country', var_name='Year', value_name='GDP')
 # END OPTIONAL ##########
 
 sns.lineplot(data_long, x='Year', y = 'GDP', hue='Country')
+plt.title('Hello')
+plt.xticks(rotation=90)
 plt.show(); plt.close()
 
 # Finally
@@ -440,3 +445,28 @@ sns.lineplot(data_long, x='Year', y = 'GDP', hue='Country')
 plt.show(); plt.close()
 
 
+
+
+
+
+# 
+plt.close()
+g = sns.FacetGrid(data_long, col="Country", col_wrap=4, sharey=False)
+g.map(sns.lineplot, "Year", "GDP")
+
+
+
+
+
+
+
+import plotly.express as px
+
+################################################################################
+
+# Load the iris dataset
+from seaborn import load_dataset
+iris = load_dataset('iris')
+
+# Display the first few rows of the dataset
+print(iris.head())
