@@ -469,13 +469,67 @@ import plotly.express as px
 ################################################################################
 
 # Load the iris dataset
+# https://en.wikipedia.org/wiki/Iris_flower_data_set
 from seaborn import load_dataset
 iris = load_dataset('iris')
 
 # Display the first few rows of the dataset
 print(iris.head())
 
+iris['sepal_ratio'] = iris['sepal_length'] / iris['sepal_width']
+iris['petal_area'] = iris['petal_length'] * iris['petal_width']
+iris['sepal_area'] = iris['sepal_length'] * iris['sepal_width']
+
+sns.scatterplot(iris, x='sepal_length', y='sepal_width', hue='species')
+sns.scatterplot(iris, x='petal_length', y='petal_width', hue='species')
+
+sns.scatterplot(iris, x='sepal_area', y='petal_area', hue='species')
+sns.scatterplot(iris, x='sepal_ratio', y='petal_area', hue='species')
+
+# Potential questions:
+# - Subsequent questions guiding through above (simple) example
+# - Looking at sepal_length and sepal_width, 
+# - Are there features that would allow you to distinguish these species?
 
 ################################################################################
 
+# Is there some bulk RNA-seq dataset we can use?
 
+# Potentially, could e.g. use 
+# Arwa's paper:
+    # https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE149331
+    # Use bulk or scRNA-seq to show 
+        # group by and determine mean gene expression, perhaps also sort by that gene expression
+        # bulk RNA-seq
+        # https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE152669
+        # GSE152669_KOH2275_readCounts_RPKM.txt.gz
+        
+
+
+################################################################################
+
+MYPATH='/Users/m.wehrens/Data_UVA/2024_teaching/2025-03-gapminder/'
+data_asia = pd.read_csv(MYPATH+'data/gapminder_gdp_asia.csv', index_col='country')
+
+df_max_GDP = pd.DataFrame()
+df_max_GDP['GDP_max'] = data_asia.max()
+df_max_GDP['Year']    = data_asia.columns.str.replace('gdpPercap_','').astype(int)
+
+plt.plot(df_max_GDP['Year'], df_max_GDP['GDP_max'])
+
+print(data_asia.idxmax())
+print(data_asia.idxmin())
+
+################################################################################
+
+plt.ion()
+
+data_all = pd.read_csv(MYPATH+'data/gapminder_all.csv', index_col='country')
+data_all.plot(kind='scatter', x='gdpPercap_2007', y='lifeExp_2007',
+              s=data_all['pop_2007']/1e6)
+
+sns.scatterplot(data_all, x='gdpPercap_2007', y='lifeExp_2007', s=data_all['pop_2007']/1e6)
+
+# in a later exercise
+plt.text(data_all.loc['United States','gdpPercap_2007'], data_all.loc['United States','lifeExp_2007'], 'United States')
+plt.text(data_all.loc['Netherlands','gdpPercap_2007'], data_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
