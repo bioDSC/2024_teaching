@@ -650,6 +650,42 @@ Suggest different ways of doing the following operations on a DataFrame:
 
 # Additional exercises Lesson 8, dataframes (2)
 
+
+### Epicardial cells
+
+#### A
+
+In the RNA-seq data, we can create another column that reflects the condition
+of the cells, WT or mutant. Fill in the blanks to achieve this
+
+```python
+df_cells_kohela2['Condition'] = ____
+
+df_cells_kohela2.loc[df_cells_kohela2.index.str.contains('WT_'), 'Condition'] = ____
+df_cells_kohela2.loc[df_cells_kohela2.index._______] = ______
+```
+
+<!--
+# SOLUTION
+df_cells_kohela2['Condition'] = 'unknown'
+df_cells_kohela2.loc[df_cells_kohela2.index.str.contains('WT_'), 'Condition'] = 'WT'
+df_cells_kohela2.loc[df_cells_kohela2.index.str.contains('mutant_'), 'Condition'] = 'mutant'
+-->
+
+#### B
+
+What is the difference between str.contains and str.match?
+
+#### C
+
+Now again calculate the mean value of TFAP2A expression in WT cells vs. mutant cells. 
+Does there appear to be more TFAP2A expression in the mutant cells?
+
+<!--
+# SOLUTION
+df_cells_kohela2.loc[:,['TFAP2A','Condition']].groupby('Condition').mean()
+-->
+
 ### Gene expression (bioDSC)
 
 - Convert the data below to a csv file, import it to a pandas df, and determine the following:
@@ -751,6 +787,242 @@ plt.xticks(rotation=90)
 
 bioDSC HINT: if you don't see the solution, take it step by step. Break down the task in subtasks, and adress the first step towards the solution first. Try that first. Running code is free.
 
+
+### Mean gene expression
+
+Use the kohela data again:
+
+```python
+# Load data, note the ".T" at the end here
+df_kohela = pd.read_csv('data/kohela-et-al.csv', index_col=0).T
+# Add cell type
+df_kohela['Celltype'] = 'unknown'
+df_kohela.loc[epicardial_cells,'Celltype'] = 'epicardial'
+df_kohela.loc[fibroblast_cells, 'Celltype'] = 'fibroblast'
+df_kohela.loc[fat_cells, 'Celltype'] = 'fat'
+# Add conditions
+df_kohela['Condition'] = 'unknown'
+df_kohela.loc[df_kohela.index.str.contains('WT_'), 'Condition'] = 'WT'
+df_kohela.loc[df_kohela.index.str.contains('mutant_'), 'Condition'] = 'mutant'
+```
+
+### A
+
+Use seaborn to create a 'stripplot' plot for WT1 expression per cell type. Then create a similar plot for TBX18. (Epicardial cell markers.)
+What information can be extracted from this plot?
+
+<!--
+# SOLUTION
+sns.stripplot(df_kohela, x='Celltype', y='WT1', jitter=True)
+sns.stripplot(df_kohela, x='Celltype', y='TBX18', jitter=True)
+-->
+
+### B
+
+Now create a scatter plot, showing WT1 expression vs. TBX18 expression across all cells.
+What does this tell us?
+
+<!--
+# SOLUTION
+sns.scatterplot(df_kohela, x='WT1', y='TBX18')
+-->
+
+### C
+
+Color the scatter plot per cell type.
+What does this tell us?
+
+### D
+
+Calculate the total RNA-seq reads per cell, and make a violin plot per condition for these total reads.
+
+Some code to start with:
+```python
+df_kohela['Total_reads'] = df_kohela.iloc[:,:-2].___.___
+```
+
+What does this tell us?
+
+### More Correlations (Carpentries, modified)
+
+This short program creates a plot showing the correlation between GDP and life expectancy for 2007, normalizing marker size by population:
+
+```python
+data_all = pd.read_csv('data/gapminder_all.csv', index_col='country')
+sns.scatterplot(data_all, x='gdpPercap_2007', y='lifeExp_2007', s=data_all['pop_2007']/1e6)
+```
+
+Using online help and other resources, explain what each argument to plot does.
+
+
+### Even more correlations (bioDSC)
+
+Use the code from the "More Correlations" exercise, and try to add the following lines to the plotting code:
+
+```
+plt.text(df_all.loc['United States','gdpPercap_2007'], df_all.loc['United States','lifeExp_2007'], 'United States')
+plt.text(df_all.loc['Netherlands','gdpPercap_2007'], df_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
+```
+
+#### A
+
+- What's happening here? (You might need to use Google.)
+- Add your favorite country too.
+
+#### B 
+
+How would you add labels for the top 10 GDP countries?
+
+##### Considerations
+Answer: this would be very tedious with what you learned currently! In the next lessons (particularly lesson 12), we'll learn how to automate your code. This will be very useful for this particular challenge.
+
+
+##################################################
+---
+
+# Additional Exercises Lesson 9, plotting
+**Modified by bioDSC**
+
+### Subselection and melting
+
+#### A
+
+Using the kohela data, first create a new dataframe `df_kohela_sel` with only a selection of a few genes, and the condition and cell type columns.
+
+Select the following genes: `['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA']`. These are epicardial markers (WT1, TBX18), a transcription factor (TFAP2A), fibroblast markers (COL2A1, ACTA2), and fat markers (PPARG, CEBPA).
+
+<!--
+#SOLUTION
+df_kohela_sel = df_kohela.loc[:,['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA','Celltype','Condition']]
+-->
+
+#### B 
+
+Now melt this dataframe using `pd.melt()`, and use cell type and condition as identifier variables.
+What will happen to the gene expression values?
+What is sensible input for the `var_name` and `value_name` parameters?
+Why is this useful? (For answer, see next questions.)
+
+<!--
+# SOLUTION
+df_kohela_melted = pd.melt(df_kohela_sel, id_vars=['Celltype','Condition'], var_name='Gene', value_name='Expression')
+-->
+
+#### C
+
+Use `df_kohela_melted.head()` to check whether the output is as expected.
+
+#### D
+
+Now make a violin or stripplot, with as x-axis the genes, expression on the y-axis, and colored for condition.
+Is there an issue with this plot?
+
+<!--
+# SOLUTION
+sns.violinplot(df_kohela_melted, x='Gene', y='Expression', hue='Condition')
+-->
+
+#### E
+
+Look at the following example:
+
+```
+import numpy as np
+
+# A custom function, which normalizes a series by its mean
+# We'll learn more about functions in Lesson 16
+def gene_normalization(X):
+    return X / np.mean(X)
+
+# Create a subset of the data
+cell_subset = ['mutant_rep1_cell174', 'WT_rep2_cell348', 'mutant_rep1_cell160',
+       'WT_rep1_cell022', 'mutant_rep1_cell069']
+gene_subset = ['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA']
+
+# Normalize gene expression
+df_kohela_subset2 = df_kohela.loc[cell_subset, gene_subset]
+
+# Print the result
+print(df_kohela_subset2.transform(gene_normalization))
+```
+
+- Check out what `gene_normalization(df_kohela_subset2['WT1'])` does.
+- What does the transform method do in the above code?
+
+#### F
+
+Edit the following code (replacing blanks by code) to normalize the gene expression by the total expression of each gene.
+Hint: look at exercise E.
+
+```
+df_kohela_grouped = df_kohela_melted.groupby(_______)
+df_kohela_melted['Expression_normalized'] = df_kohela_grouped['Expression']._______(gene_normalization)
+```
+
+Then, similar to D, plot the normalized gene expression using both the `sns.barplot` and `sns.stripplot`.
+For the stripplot, use the additional parameter `dodge=True`.
+
+The barplot looks nice, but does it contain all information?
+
+<!--
+# SOLUTION
+sns.barplot(df_kohela_melted, x='Gene', y='Expression_normalized', hue='Condition')
+sns.stripplot(df_kohela_melted, x='Gene', y='Expression_normalized', hue='Condition', dodge=True)
+-->
+
+#### G
+
+Finally, you might want to change the order in these plots. Use the following line:
+
+```python
+df_kohela_melted['Condition'] = pd.Categorical(df_kohela_melted['Condition'], categories=['WT', 'mutant'], ordered=True)
+```
+
+And then run your plotting code again.
+What has happened?
+
+### Saving your plot
+
+You might want to save your plot.
+You can use the `plt.savefig` function for this.
+
+Check out this code with some additional convenient options.
+Change `'/your/location/your-filename.pdf'` to a convenient path where you save your figure.
+
+```python
+import matplotlib.pyplot as plt
+
+# Bang Wong colorblind-friendly color scheme (https://www.nature.com/articles/nmeth.1618)
+colors_bangwong = [
+    "#E69F00",  # Orange
+    "#56B4E9",  # Sky Blue
+    "#009E73",  # Bluish Green
+    "#F0E442",  # Yellow
+    "#0072B2",  # Blue
+    "#D55E00",  # Vermillion
+    "#CC79A7",  # Reddish Purple
+    "#000000"   # Black
+]
+
+plt.style.use('default')
+fig, ax = plt.subplots(1,1, figsize=(10/2.54,10/2.54))
+ax.plot([1,2,3,4], [1,4,9,16], linestyle='--', color=colors_bangwong[1], label=r'$x^2$')
+ax.plot([1,2,3,4], [1,5,11,19], linestyle=':', color=colors_bangwong[2], label=r'$x^2+(x-1)$')
+ax.legend()
+ax.set_xlabel('X-axis', fontsize=12)
+ax.set_ylabel('Y-axis', fontsize=12)
+ax.set_title('Sample Plot', fontsize=12)
+ax.legend(fontsize=12)
+ax.tick_params(axis='both', which='major', labelsize=12)
+plt.tight_layout()
+
+plt.savefig('/your/location/your-filename.pdf', dpi=300, bbox_inches='tight')
+plt.close(fig)
+
+# Use this command to show the figure when not using (Jupyter) notebooks.
+# plt.show()
+```
+
 ### Correlations (Carpentries, modified)
 
 Modify the code from "Minima and Maxima" exercise to create a scatter plot showing the relationship between the minimum and maximum GDP per capita across the countries in Asia, with each point in the plot corresponding to a year. What relationship do you see (if any)?
@@ -771,17 +1043,6 @@ plt.plot(df_max_GDP['Year'], df_max_GDP['GDP_max'])
 print(data_asia.idxmax())
 print(data_asia.idxmin())
 ```
-
-### More Correlations (Carpentries, modified)
-
-This short program creates a plot showing the correlation between GDP and life expectancy for 2007, normalizing marker size by population:
-
-```python
-data_all = pd.read_csv('data/gapminder_all.csv', index_col='country')
-sns.scatterplot(data_all, x='gdpPercap_2007', y='lifeExp_2007', s=data_all['pop_2007']/1e6)
-```
-
-Using online help and other resources, explain what each argument to plot does.
 
 ### Normalized dataframe (bioDSC)
 
@@ -842,22 +1103,6 @@ print(df_crudeoil_melted.head())
 ```
 
 Using your new plotting skills, compare this data against the trends in the Asian GDPs showed earlier.
-
-### Even more correlations (bioDSC)
-
-In the "More Correlations" exercise, try to add the following lines to the plotting code:
-
-```
-plt.text(df_all.loc['United States','gdpPercap_2007'], df_all.loc['United States','lifeExp_2007'], 'United States')
-plt.text(df_all.loc['Netherlands','gdpPercap_2007'], df_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
-```
-
-- What's happening here?
-- Perhaps also add your favorite country too?
-- How would you add labels for the top 10 GDP countries?
-    - Note: in the next lessons, we'll learn how to automate your code. This will be very useful for this particular challenge.
-
-
 
 
 ##################################################
@@ -1093,6 +1338,19 @@ print(result)
 ---
 
 # Additional Exercises Lesson 12, Loops
+
+### Plotting automation
+
+Remember this code from Lesson 9?
+
+```python
+data_all = pd.read_csv('data/gapminder_all.csv', index_col='country')
+sns.scatterplot(data_all, x='gdpPercap_2007', y='lifeExp_2007', s=data_all['pop_2007']/1e6)
+plt.text(df_all.loc['United States','gdpPercap_2007'], df_all.loc['United States','lifeExp_2007'], 'United States')
+plt.text(df_all.loc['Netherlands','gdpPercap_2007'], df_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
+```
+
+Try to annotate 10 selected countries automatically.
 
 ### Reversing a String
 

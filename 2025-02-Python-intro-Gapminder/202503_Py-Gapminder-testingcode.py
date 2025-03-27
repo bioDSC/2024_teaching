@@ -523,13 +523,16 @@ print(data_asia.idxmin())
 ################################################################################
 
 plt.ion()
+MYPATH='/Users/m.wehrens/Data_UVA/2024_teaching/2025-03-gapminder/'
 
 data_all = pd.read_csv(MYPATH+'data/gapminder_all.csv', index_col='country')
-data_all.plot(kind='scatter', x='gdpPercap_2007', y='lifeExp_2007',
-              s=data_all['pop_2007']/1e6)
+# data_all.plot(kind='scatter', x='gdpPercap_2007', y='lifeExp_2007', s=data_all['pop_2007']/1e6)
 
 sns.scatterplot(data_all, x='gdpPercap_2007', y='lifeExp_2007', s=data_all['pop_2007']/1e6)
 
 # in a later exercise
 plt.text(data_all.loc['United States','gdpPercap_2007'], data_all.loc['United States','lifeExp_2007'], 'United States')
 plt.text(data_all.loc['Netherlands','gdpPercap_2007'], data_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
+
+# plt.close()
+

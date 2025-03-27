@@ -70,3 +70,132 @@ df_results = df_cells_kohela2_groupedType.mean() / df_cells_kohela2.iloc[:,:-1].
 df_results.loc[:,'TFAP2A']
 
 df_results.loc[:,(df_results>10).any()]
+
+##### Some additional exercise material
+
+### Epicardial cells
+
+# In the RNA-seq data, we can create another column that reflects the condition
+# of the cells, WT or mutant.
+# 
+# Fill in the blanks to achieve this
+
+# df_cells_kohela2['Condition'] = ____
+
+# df_cells_kohela2.loc[df_cells_kohela2.index.str.contains('WT_'), 'Condition'] = ____
+# df_cells_kohela2.loc[df_cells_kohela2.index._______] = ______
+
+# SOLUTION
+df_cells_kohela2['Condition'] = 'unknown'
+df_cells_kohela2.loc[df_cells_kohela2.index.str.contains('WT_'), 'Condition'] = 'WT'
+df_cells_kohela2.loc[df_cells_kohela2.index.str.contains('mutant_'), 'Condition'] = 'mutant'
+
+# What is the difference between str.contains and str.match?
+
+# Now again calculate the mean value of TFAP2A expression in WT cells vs. mutant cells.
+
+# SOLUTION:
+df_cells_kohela2.loc[:,['TFAP2A','Condition']].groupby('Condition').mean()
+
+
+################################################################################
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+# plt.ion()
+
+# Plotting exercises
+df_kohela = pd.read_csv('/Users/m.wehrens/Data_UVA/example-datasets/kohela-et-al/kohela-et-al.csv', index_col=0).T
+# df_kohela = pd.read_csv('data/kohela-et-al.csv', index_col=0).T
+df_kohela['Celltype'] = 'unknown'
+df_kohela.loc[epicardial_cells,'Celltype'] = 'epicardial'
+df_kohela.loc[fibroblast_cells, 'Celltype'] = 'fibroblast'
+df_kohela.loc[fat_cells, 'Celltype'] = 'fat'
+df_kohela['Condition'] = 'unknown'
+df_kohela.loc[df_kohela.index.str.contains('WT_'), 'Condition'] = 'WT'
+df_kohela.loc[df_kohela.index.str.contains('mutant_'), 'Condition'] = 'mutant'
+
+# Create two jitter plots for WT1 expression per cell type, and a similar plot for TBX18
+sns.stripplot(df_kohela, x='Celltype', y='WT1', jitter=True)
+sns.stripplot(df_kohela, x='Celltype', y='TBX18', jitter=True)
+
+# A scatter plot between TFAP2A and COL2A1
+sns.scatterplot(df_kohela, x='WT1', y='TBX18')
+# plt.show(); plt.close()
+
+# Scatter per cell type
+sns.scatterplot(df_kohela, x='WT1', y='TBX18', hue='Celltype')
+sns.scatterplot(df_kohela, x='WT1', y='TBX18', hue='Condition')
+
+# Calculate the total expression per cell
+df_kohela['Total_reads'] = df_kohela.iloc[:,:-2].T.sum()
+# And plot
+sns.violinplot(df_kohela, x='Condition', y='Total_reads')
+
+## Another exercise
+# Selection and melting
+
+df_kohela_sel = df_kohela.loc[:,['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA','Celltype','Condition']]
+
+# Now melt this dataframe, using cell type and condition as id variables.
+df_kohela_melted = pd.melt(df_kohela_sel, id_vars=['Celltype','Condition'], var_name='Gene', value_name='Expression')
+
+sns.violinplot(df_kohela_melted, x='Gene', y='Expression', hue='Condition')
+
+# use split-apply-combine to normalize the expression of each of the genes by its sum
+
+# This custom function (see later lessons) divides a series of values by its mean
+import numpy as np
+def gene_normalization(X):
+    return X / np.mean(X)
+
+df_kohela_expression = df_kohela_melted.loc[:,'Expression']
+df_kohela_expression_grouped = df_kohela_expression.groupby(df_kohela_melted['Gene'])
+df_kohela_expression_normalized = df_kohela_expression_grouped['Expression'].transform(gene_normalization)
+df_kohela_melted['Expression_normalized'] = df_kohela_expression_normalized.loc[:,0]
+
+
+df_kohela_melted['Expression_normalized2'] = (
+    df_kohela_melted.groupby('Gene')['Expression']
+    .transform(gene_normalization)
+)
+
+
+# Code used for exercises
+df_kohela_grouped = df_kohela_melted.groupby('Gene')
+df_kohela_melted['Expression_normalized'] = df_kohela_grouped['Expression'].transform(gene_normalization)
+#df_kohela_grouped = df_kohela_melted.groupby(_______)
+#df_kohela_melted['Expression_normalized'] = df_kohela_grouped['Expression']._______(gene_normalization)
+
+
+# (How selection below was created)
+# First, let's select a subset of the data 
+# Determine the total reads on our favorite genes
+#df_kohela['Total_reads_sel'] = df_kohela.loc[:,['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA']].T.sum()
+#idx_top10_most_reads = df_kohela['Total_reads'].nlargest(5).index
+#df_kohela_subset2 = df_kohela.loc[idx_top10_most_reads, ['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA','Celltype','Condition','Total_reads']]
+
+
+# Let's look at an example
+cell_subset = ['mutant_rep1_cell174', 'WT_rep2_cell348', 'mutant_rep1_cell160',
+       'WT_rep1_cell022', 'mutant_rep1_cell069']
+gene_subset = ['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA']
+df_kohela_subset2 = df_kohela.loc[cell_subset, gene_subset]
+
+print(df_kohela_subset2.transform(gene_normalization))
+
+
+
+###
+df_kohela_melted.describe(percentiles=[0.1,0.25,0.5,0.75,0.95])
+
+# sns.violinplot(df_kohela_melted, x='Gene', y='Expression_normalized', hue='Condition')
+sns.barplot(df_kohela_melted, x='Gene', y='Expression_normalized', hue='Condition')
+# show summary information regarding df_kohela_melted, including percentiles
+plt.ylim([0,5])
+
+sns.stripplot(df_kohela_melted, x='Gene', y='Expression_normalized', hue='Condition', jitter=True, dodge=True, color='black')
+
+sns.stripplot(df_kohela_melted, x='Gene', y='Expression_normalized', hue='Condition', dodge=True)
+df_kohela_melted['Condition'] = pd.Categorical(df_kohela_melted['Condition'], categories=['WT', 'mutant'], ordered=True)
