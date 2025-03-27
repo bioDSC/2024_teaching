@@ -83,7 +83,7 @@ tot_sec = min * 60 + sec
 total_seconds = minutes * 60 + seconds
 ```
 
-### Additional exercises for fast participants (by bioDSC)
+### A very challenging set of additional exercises (bioDSC)
 
 What's happening here:
 
@@ -225,6 +225,7 @@ What will `numbers[1]` return? And `physical_constants[2:4]`?
 #### B
 
 What is the type of 
+
 - `numbers`?
 - `numbers[1]`?
 - `physical_constants`?
@@ -477,7 +478,7 @@ from math import log
 log(0)
 ```
 
-### Write your own (bioDSC)
+### Write your own function and import it (bioDSC)
 
 When you have a notebook file, you can also create another file, with a .py extension, and write functions in that file. The .py file can be imported like a library, and the functions in the file can be used as if they came from a library.
 
@@ -583,7 +584,7 @@ print(f"T-statistic: {t_stat}, P-value: {p_value}")
 
 Import data for europe:
 
-```
+```python
 import pandas as pd
 data_europe = pd.read_csv('data/gapminder_gdp_europe.csv', index_col='country')
 ```
@@ -656,13 +657,13 @@ Suggest different ways of doing the following operations on a DataFrame:
 #### A
 
 In the RNA-seq data, we can create another column that reflects the condition
-of the cells, WT or mutant. Fill in the blanks to achieve this
+of the cells, WT or mutant. Fill in the blanks to achieve this:
 
 ```python
 df_cells_kohela2['Condition'] = ____
 
 df_cells_kohela2.loc[df_cells_kohela2.index.str.contains('WT_'), 'Condition'] = ____
-df_cells_kohela2.loc[df_cells_kohela2.index._______] = ______
+df_cells_kohela2.loc[df_cells_kohela2.index._______, _________] = ______
 ```
 
 <!--
@@ -688,7 +689,7 @@ df_cells_kohela2.loc[:,['TFAP2A','Condition']].groupby('Condition').mean()
 
 ### Gene expression (bioDSC)
 
-- Convert the data below to a csv file, import it to a pandas df, and determine the following:
+- Convert the data below to a file you can import (e.g.: csv, tsv), import it to a pandas df, and determine the following:
     - The average CRP gene expression per condion.
     - The corresponding standard deviations.
     - The log2-fold change between WT, condition A, and condition B.
@@ -788,7 +789,7 @@ plt.xticks(rotation=90)
 bioDSC HINT: if you don't see the solution, take it step by step. Break down the task in subtasks, and adress the first step towards the solution first. Try that first. Running code is free.
 
 
-### Mean gene expression
+### Mean gene expression (bioDSC)
 
 Use the kohela data again:
 
@@ -838,10 +839,10 @@ Calculate the total RNA-seq reads per cell, and make a violin plot per condition
 
 Some code to start with:
 ```python
-df_kohela['Total_reads'] = df_kohela.iloc[:,:-2].___.___
+df_kohela['Total_reads'] = df_kohela.iloc[:,'A1BG':'ZZZ3'].____
 ```
 
-What does this tell us?
+What does the violin plot tell us?
 
 ### More Correlations (Carpentries, modified)
 
@@ -857,14 +858,14 @@ Using online help and other resources, explain what each argument to plot does.
 
 ### Even more correlations (bioDSC)
 
+#### A
+
 Use the code from the "More Correlations" exercise, and try to add the following lines to the plotting code:
 
 ```
 plt.text(df_all.loc['United States','gdpPercap_2007'], df_all.loc['United States','lifeExp_2007'], 'United States')
 plt.text(df_all.loc['Netherlands','gdpPercap_2007'], df_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
 ```
-
-#### A
 
 - What's happening here? (You might need to use Google.)
 - Add your favorite country too.
@@ -873,8 +874,7 @@ plt.text(df_all.loc['Netherlands','gdpPercap_2007'], df_all.loc['Netherlands','l
 
 How would you add labels for the top 10 GDP countries?
 
-##### Considerations
-Answer: this would be very tedious with what you learned currently! In the next lessons (particularly lesson 12), we'll learn how to automate your code. This will be very useful for this particular challenge.
+***Answer***: this would be very tedious with what you learned currently! In the next lessons (particularly lesson 12), we'll learn how to automate your code. This will be very useful for this particular challenge.
 
 
 ##################################################
@@ -1727,6 +1727,10 @@ print_date(day=1, month=2, year=2003)
 - What does `print_date(day=1, month=2, year=2003)` print?
 - When have you seen a function call like this before?
 - When and why is it useful to call functions this way?
+
+### Write your own function
+
+See the exercise "Write your own function and import it" from the additional exercises in lesson 6.
 
 ### Omitted exercises
 

@@ -129,7 +129,8 @@ sns.scatterplot(df_kohela, x='WT1', y='TBX18', hue='Celltype')
 sns.scatterplot(df_kohela, x='WT1', y='TBX18', hue='Condition')
 
 # Calculate the total expression per cell
-df_kohela['Total_reads'] = df_kohela.iloc[:,:-2].T.sum()
+# df_kohela['Total_reads'] = df_kohela.iloc[:,:-2].T.sum()
+df_kohela['Total_reads'] = df_kohela.iloc[:,'A1BG':'ZZZ3'].T.sum()
 # And plot
 sns.violinplot(df_kohela, x='Condition', y='Total_reads')
 
