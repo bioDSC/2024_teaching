@@ -941,9 +941,10 @@ gene_subset = ['WT1', 'TBX18', 'TFAP2A', 'COL2A1', 'ACTA2', 'PPARG', 'CEBPA']
 
 # Normalize gene expression
 df_kohela_subset2 = df_kohela.loc[cell_subset, gene_subset]
+df_kohela_subset2_normalized = df_kohela_subset2.transform(gene_normalization)
 
 # Print the result
-print(df_kohela_subset2.transform(gene_normalization))
+print(df_kohela_subset2_normalized)
 ```
 
 - Check out what `gene_normalization(df_kohela_subset2['WT1'])` does.
