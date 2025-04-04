@@ -770,13 +770,15 @@ Poland’s borders have been stable since 1945, but changed several times in the
 
 ### Minima and Maxima (Carpentries, modified)
 
-Fill in the blanks below to plot the minimum GDP per capita over time for all the countries in Europe. Modify it again to plot the maximum GDP per capita over time for Europe.
+Fill in the blanks below to plot the minimum GDP per capita over time for all the countries in Europe. 
+
+Modify it again to plot the maximum GDP per capita over time for Europe, you need to edit the code beyond the `___` for this.
 
 ```python
 data_europe = pd.read_csv('/Users/m.wehrens/Desktop/python_course/data/gapminder_gdp_europe.csv', index_col='country')
 data_europe_transposed = data_europe.T
 
-data_europe_transposed['min'] = data_europe_transposed.____
+data_europe_transposed['min'] = data_europe.____
 data_europe_transposed['max'] = ____
 data_europe_transposed['year'] = ____
 
