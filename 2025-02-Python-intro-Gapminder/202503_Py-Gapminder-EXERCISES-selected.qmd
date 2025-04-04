@@ -845,7 +845,7 @@ Calculate the total RNA-seq reads per cell, and make a violin plot per condition
 
 Some code to start with:
 ```python
-df_kohela['Total_reads'] = df_kohela.loc[:,'A1BG':'ZZZ3'].____
+df_kohela['Total_reads'] = df_kohela.loc[:,'A1BG':'ZZZ3']._.____
 ```
 
 What does the violin plot tell us?
@@ -869,8 +869,8 @@ Using online help and other resources, explain what each argument to plot does.
 Use the code from the "More Correlations" exercise, and try to add the following lines to the plotting code:
 
 ```
-plt.text(df_all.loc['United States','gdpPercap_2007'], df_all.loc['United States','lifeExp_2007'], 'United States')
-plt.text(df_all.loc['Netherlands','gdpPercap_2007'], df_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
+plt.text(data_all.loc['United States','gdpPercap_2007'], data_all.loc['United States','lifeExp_2007'], 'United States')
+plt.text(data_all.loc['Netherlands','gdpPercap_2007'], data_all.loc['Netherlands','lifeExp_2007'], 'Netherlands')
 ```
 
 - What's happening here? (You might need to use Google.)
