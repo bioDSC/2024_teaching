@@ -798,6 +798,10 @@ Use the kohela data again:
 ```python
 # Load data, note the ".T" at the end here
 df_kohela = pd.read_csv('data/kohela-et-al.csv', index_col=0).T
+# create new 'masks'
+epicardial_cells = df_kohela['WT1']>3
+fibroblast_cells = df_kohela['COL2A1']>30
+fat_cells = df_kohela['PPARG']>2
 # Add cell type
 df_kohela['Celltype'] = 'unknown'
 df_kohela.loc[epicardial_cells,'Celltype'] = 'epicardial'
