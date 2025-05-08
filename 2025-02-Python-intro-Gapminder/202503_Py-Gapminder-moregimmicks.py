@@ -35,7 +35,7 @@ df_crudeoil_melted = df_crudeoil.melt(id_vars='Decade', var_name='lastdigit')
 # remove the suffix "0's" from the decades column
 df_crudeoil_melted.loc[:,'Decade'] = df_crudeoil_melted.loc[:,'Decade'].str.replace("0's",'')
 df_crudeoil_melted.loc[:,'lastdigit'] = df_crudeoil_melted.loc[:,'lastdigit'].str.replace('Year-','')
-df_crudeoil_melted.loc[:,'Year'] = df_crudeoil_melted.loc[:,'Decade'] + df_crudeoil_melted.loc[:,'lastdigit']
+df_crudeoil_melted.loc[:,'Year'] = (df_crudeoil_melted.loc[:,'Decade'] + df_crudeoil_melted.loc[:,'lastdigit']).astype(int)
 df_crudeoil_melted
 
 ################################################################################
